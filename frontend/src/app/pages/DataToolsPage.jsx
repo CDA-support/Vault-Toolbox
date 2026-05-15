@@ -3,7 +3,7 @@ import { PanelGroup, Panel } from 'react-resizable-panels';
 import DataToolsHeaderRow from '../components/data-tools/DataToolsHeaderRow';
 import DataToolsIsland from '../components/data-tools/DataToolsIand';
 import ContextualHelpButton from '../components/shared/ContextualHelpButton';
-import VaultInfoIsland from '../components/shared/VaultInfoIsland';
+import VaultInfoIsland from '../components/shared/vault-info-island/VaultInfoIsland';
 import useVaultDataTools from '../hooks/data-tools/useDataTools';
 
 export default function DataToolsPage() {
@@ -47,8 +47,8 @@ export default function DataToolsPage() {
                 <Flex flexDirection='column' height='100%'>
                     <Spacer />
                     <ContextualHelpButton
-                        tooltip='Vault Data Tools Repo'
-                        url='https://github.com/veeva/Vault-Data-Tools'
+                        tooltip='Data Tools Help'
+                        url='https://general.veevavault.dev/vault-toolbox/browser-extension/guides/data-tools/'
                     />
                 </Flex>
             </Box>

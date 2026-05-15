@@ -1,8 +1,8 @@
 import { VAULT_CLIENT_ID, getVaultDNS } from '../ApiService.js';
-import { getVaultApiVersion } from '../SharedServices';
+import { getVaultApiVersion, getCustomApiHeadersFromStorage } from '../SharedServices';
 
-export const VAULT_API_VERSION = 'v25.3';
-export const VAULT_DEVELOPER_TOOLBOX_VERSION = 'v25.3.0';
+export const VAULT_API_VERSION = 'v26.1';
+export const VAULT_DEVELOPER_TOOLBOX_VERSION = 'v26.1.0';
 
 export const HTTP_HEADER_CONTENT_TYPE = 'Content-Type';
 export const HTTP_HEADER_ACCEPT = 'Accept';
@@ -40,9 +40,17 @@ export async function request(url, options = {}) {
  * @returns headers object
  */
 const getDefaultHeaders = () => {
+    // Flatten the user-defined [{ key, value }] rows from session storage into a single headers object. Keys are trimmed
+    // and whitespace-only keys are skipped.
+    const customHeaders = getCustomApiHeadersFromStorage().reduce((acc, { key, value }) => {
+        if (key.trim()) acc[key.trim()] = value;
+        return acc;
+    }, {});
+
     return {
         [HTTP_HEADER_VAULT_CLIENT_ID]: VAULT_CLIENT_ID,
         [HTTP_HEADER_REFERENCE_ID]: VAULT_DEVELOPER_TOOLBOX_VERSION,
+        ...customHeaders,
     };
 };
 

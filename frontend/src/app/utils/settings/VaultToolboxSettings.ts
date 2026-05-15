@@ -1,3 +1,5 @@
+export const MAX_FAVORITE_TOOLS = 10;
+
 export interface FeatureSettings {
     showVaultAdminLinks?: boolean; // Used in Data Navigator
     showFileStaging?: boolean; // Used in File Browser
@@ -6,6 +8,8 @@ export interface FeatureSettings {
 
 interface BasePageSettings {
     enabled: boolean;
+    favorite?: boolean;
+    displayOrder?: number;
     featureSettings?: FeatureSettings;
 }
 
@@ -14,15 +18,23 @@ export type VaultToolboxSettings = Record<string, BasePageSettings>;
 export const defaultSettings: VaultToolboxSettings = {
     componentEditor: {
         enabled: true,
+        favorite: true,
+        displayOrder: 1,
     },
     vqlEditor: {
         enabled: true,
+        favorite: true,
+        displayOrder: 2,
     },
     dataTools: {
         enabled: true,
+        favorite: true,
+        displayOrder: 3,
     },
     fileBrowser: {
         enabled: true,
+        favorite: true,
+        displayOrder: 4,
         featureSettings: {
             showFileStaging: true,
             showDirectData: true,
@@ -30,6 +42,8 @@ export const defaultSettings: VaultToolboxSettings = {
     },
     dataNavigator: {
         enabled: true,
+        favorite: true,
+        displayOrder: 5,
         featureSettings: {
             showVaultAdminLinks: true,
         },

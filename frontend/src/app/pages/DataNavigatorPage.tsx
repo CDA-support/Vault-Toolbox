@@ -1,6 +1,6 @@
 import { Box, Flex, Spacer, StackProps, VStack } from '@chakra-ui/react';
 import ContextualHelpButton from '../components/shared/ContextualHelpButton';
-import VaultInfoIsland from '../components/shared/VaultInfoIsland';
+import VaultInfoIsland from '../components/shared/vault-info-island/VaultInfoIsland';
 import DataNavigatorHeaderRow from '../components/data-navigator/DataNavigatorHeaderRow';
 import DataNavigatorIsland from '../components/data-navigator/DataNavigatorIsland';
 import useDataNavigator from '../hooks/data-navigator/useDataNavigator';
@@ -40,7 +40,10 @@ export default function DataNavigatorPage() {
             <Box height='100vh' flex='0 0 auto'>
                 <Flex flexDirection='column' height='100%'>
                     <Spacer />
-                    <ContextualHelpButton tooltip='Data Navigator' url='https://github.com/veeva/Vault-Toolbox' />
+                    <ContextualHelpButton
+                        tooltip='Data Navigator Help'
+                        url='https://general.veevavault.dev/vault-toolbox/browser-extension/guides/data-navigator/'
+                    />
                 </Flex>
             </Box>
         </Flex>

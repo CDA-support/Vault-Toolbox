@@ -8,11 +8,7 @@ import {
 } from '../../services/SharedServices';
 import { retrieveApiVersions } from '../../services/vapil/AuthenticationRequest';
 
-interface UseEditApiVersionProps {
-    onClose: () => void;
-}
-
-export default function useEditApiVersion({ onClose }: UseEditApiVersionProps) {
+export default function useEditApiVersion() {
     const { sessionId } = useAuth();
 
     const [selectedApiVersion, setSelectedApiVersion] = useState<ReactSelectOption | null>({
@@ -52,21 +48,12 @@ export default function useEditApiVersion({ onClose }: UseEditApiVersionProps) {
     }, [sessionId]);
 
     /**
-     * Handles closing the select API version modal.
-     */
-    const handleModalClose: () => void = () => {
-        setSelectedApiVersion(null);
-        onClose();
-    };
-
-    /**
      * Handles saving the selected API version.
      */
-    const handleSave: () => void = () => {
+    const handleSaveApiVersion: () => void = () => {
         if (selectedApiVersion) {
             sessionStorage.setItem('vaultApiVersion', selectedApiVersion?.value);
         }
-        onClose();
     };
 
     /**
@@ -82,7 +69,6 @@ export default function useEditApiVersion({ onClose }: UseEditApiVersionProps) {
         apiVersions,
         vaultApiVersionsError,
         loadingVaultApiVersions,
-        handleSave,
-        handleModalClose,
+        handleSaveApiVersion,
     };
 }

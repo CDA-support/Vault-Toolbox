@@ -1,18 +1,15 @@
 import { createContext, useContext, useReducer, useEffect, ReactNode } from 'react';
-import { VaultToolboxSettings, defaultSettings } from '../utils/settings/VaultToolboxSettings';
+import { MAX_FAVORITE_TOOLS, VaultToolboxSettings, defaultSettings } from '../utils/settings/VaultToolboxSettings';
 
 // Action types
 const UPDATE_PAGE_VISIBILITY = 'UPDATE_PAGE_VISIBILITY';
 const UPDATE_FEATURE_FLAG = 'UPDATE_FEATURE_FLAG';
+const UPDATE_FAVORITE = 'UPDATE_FAVORITE';
 
-type ActionType = typeof UPDATE_PAGE_VISIBILITY | typeof UPDATE_FEATURE_FLAG;
-
-interface Action {
-    type: ActionType;
-    pageId: string;
-    enabled: boolean;
-    featureFlag?: string;
-}
+type Action =
+    | { type: typeof UPDATE_PAGE_VISIBILITY; pageId: string; enabled: boolean }
+    | { type: typeof UPDATE_FEATURE_FLAG; pageId: string; enabled: boolean; featureFlag: string }
+    | { type: typeof UPDATE_FAVORITE; pageId: string; favorite: boolean };
 
 function settingsReducer(state: VaultToolboxSettings, action: Action): VaultToolboxSettings {
     let currentFeatureSettings = state[action.pageId]?.featureSettings;
@@ -49,6 +46,25 @@ function settingsReducer(state: VaultToolboxSettings, action: Action): VaultTool
                     },
                 },
             };
+        case UPDATE_FAVORITE:
+            const currentFavoriteCount = Object.values(state).filter((pageSettings) => pageSettings?.favorite).length;
+
+            if (action.favorite && currentFavoriteCount >= MAX_FAVORITE_TOOLS) {
+                return state;
+            }
+
+            const maxDisplayOrder = Math.max(
+                0,
+                ...Object.values(state).map((pageSettings) => pageSettings?.displayOrder ?? 0),
+            );
+            return {
+                ...state,
+                [action.pageId]: {
+                    ...(state[action.pageId] || defaultSettings[action.pageId]),
+                    favorite: action.favorite,
+                    displayOrder: action.favorite ? maxDisplayOrder + 1 : undefined,
+                },
+            };
         default:
             return state;
     }
@@ -66,15 +82,41 @@ interface SettingsContextType {
         enabled: boolean;
         featureFlag: string;
     }) => void;
+    setFavorite: (pageId: string, favorite: boolean) => void;
 }
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
 
+/**
+ * Loads saved settings from localStorage and backfills any keys missing from
+ * the current `defaultSettings` schema, so new fields reach existing users
+ * without overwriting their saved choices.
+ */
+function hydrateSettings(): VaultToolboxSettings {
+    const rawExistingSettings = localStorage.getItem('vaultToolboxSettings');
+    if (!rawExistingSettings) return defaultSettings;
+
+    const existingSettings: VaultToolboxSettings = JSON.parse(rawExistingSettings);
+    const mergedSettings: VaultToolboxSettings = {};
+
+    for (const pageId of Object.keys(defaultSettings)) {
+        const defaultPage = defaultSettings[pageId];
+        const savedPage = existingSettings[pageId];
+
+        const mergedPage = { ...defaultPage, ...savedPage };
+        if (defaultPage.featureSettings || savedPage?.featureSettings) {
+            mergedPage.featureSettings = {
+                ...defaultPage.featureSettings,
+                ...savedPage?.featureSettings,
+            };
+        }
+        mergedSettings[pageId] = mergedPage;
+    }
+    return mergedSettings;
+}
+
 export function SettingsProvider({ children }: { children: ReactNode }) {
-    const [settings, dispatch] = useReducer(settingsReducer, undefined, () => {
-        const savedSettings = localStorage.getItem('vaultToolboxSettings');
-        return savedSettings ? JSON.parse(savedSettings) : defaultSettings;
-    });
+    const [settings, dispatch] = useReducer(settingsReducer, undefined, hydrateSettings);
 
     useEffect(() => {
         localStorage.setItem('vaultToolboxSettings', JSON.stringify(settings));
@@ -96,8 +138,12 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
         dispatch({ type: UPDATE_FEATURE_FLAG, pageId, featureFlag, enabled });
     };
 
+    const setFavorite = (pageId: string, favorite: boolean) => {
+        dispatch({ type: UPDATE_FAVORITE, pageId, favorite });
+    };
+
     return (
-        <SettingsContext.Provider value={{ settings, setPageVisibility, setFeatureFlag }}>
+        <SettingsContext.Provider value={{ settings, setPageVisibility, setFeatureFlag, setFavorite }}>
             {children}
         </SettingsContext.Provider>
     );

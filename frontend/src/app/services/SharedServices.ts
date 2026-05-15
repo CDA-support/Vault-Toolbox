@@ -1,5 +1,6 @@
 import { VAULT_API_VERSION } from './vapil/VaultRequest';
 import { retrieveJobStatus } from './ApiService';
+import { CustomApiHeader } from '../hooks/shared/useCustomApiHeaders';
 
 export const VAULT_SUBDOMAINS: string[] = ['veevavault.com', 'veevavault.cn', 'vaultdev.com', 'vaultpvm.com'];
 
@@ -80,6 +81,22 @@ export function getVaultApiVersion(): string {
         return currentApiVersion;
     } else {
         return VAULT_API_VERSION;
+    }
+}
+
+/**
+ * Retrieves the value of vaultCustomApiHeaders from session storage
+ */
+export function getCustomApiHeadersFromStorage(): CustomApiHeader[] {
+    const storedValue = sessionStorage.getItem('vaultCustomApiHeaders');
+
+    // If value not found in sessionStorage, default to an empty array
+    if (!storedValue) return [];
+
+    try {
+        return JSON.parse(storedValue);
+    } catch {
+        return [];
     }
 }
 

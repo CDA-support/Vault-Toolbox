@@ -3,8 +3,8 @@ import { PiClockCounterClockwiseBold, PiTreeStructureBold } from 'react-icons/pi
 import { Panel, PanelGroup } from 'react-resizable-panels';
 import ContextualHelpButton from '../components/shared/ContextualHelpButton';
 import TelemetryData from '../components/shared/TelemetryData';
-import VaultInfoIsland from '../components/shared/VaultInfoIsland';
 import VerticalResizeHandle from '../components/shared/VerticalResizeHandle';
+import VaultInfoIsland from '../components/shared/vault-info-island/VaultInfoIsland';
 import VqlEditorIsland from '../components/vql-editor/VqlEditorIsland';
 import VqlHeaderRow from '../components/vql-editor/VqlHeaderRow';
 import VqlProdVaultWarningModal from '../components/vql-editor/VqlProdVaultWarningModal';
@@ -194,7 +194,10 @@ export default function VqlEditorPage() {
                             <PiClockCounterClockwiseBold size={20} style={{ margin: '4px' }} />
                         </IconButton>
                         <Spacer />
-                        <ContextualHelpButton tooltip='VQL Documentation' url='https://developer.veevavault.com/vql/' />
+                        <ContextualHelpButton
+                            tooltip='VQL Editor Help'
+                            url='https://general.veevavault.dev/vault-toolbox/browser-extension/guides/vql-editor/'
+                        />
                     </Flex>
                 </Box>
             </Flex>

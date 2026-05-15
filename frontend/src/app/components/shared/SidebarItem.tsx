@@ -1,9 +1,17 @@
-import { Flex, Link, Icon } from '@chakra-ui/react';
+import { Flex, Link, Icon, FlexProps, IconProps } from '@chakra-ui/react';
 import { Link as RouteLink } from 'react-router-dom';
 import { useSettings } from '../../context/SettingsContext';
 import { Tooltip } from './ui-components/tooltip';
+import { SidebarItem } from '../../utils/shared/SidebarItems';
 
-export default function SidebarItem({ item, currentRoute, children, onClose }) {
+interface SidebarItemProps {
+    item: SidebarItem;
+    currentRoute: string;
+    onClose: () => void;
+    children?: React.ReactNode;
+}
+
+export default function SidebarItem({ item, currentRoute, onClose, children }: SidebarItemProps) {
     const { settings } = useSettings();
 
     // Don't render if page is disabled, unless it's marked as alwaysShow (e.g. Vault Info)
@@ -18,20 +26,22 @@ export default function SidebarItem({ item, currentRoute, children, onClose }) {
 
     return (
         <Tooltip content={item.name} openDelay={0} positioning={{ placement: 'right' }}>
-            <Link as={RouteLink} to={item.route} onClick={onClose} _hover={{ textDecoration: 'none' }} focusRing='none'>
-                <Flex
-                    {...SidebarItemStyle}
-                    borderColor={thisItemsRoute === currentRoute ? 'veeva_orange_color_mode' : 'transparent'}
-                >
-                    {item.icon && <Icon {...IconStyle} as={item.icon} />}
-                    {children}
-                </Flex>
+            <Link asChild onClick={onClose} _hover={{ textDecoration: 'none' }} focusRing='none'>
+                <RouteLink to={item.route}>
+                    <Flex
+                        {...SidebarItemStyle}
+                        borderColor={thisItemsRoute === currentRoute ? 'veeva_orange_color_mode' : 'transparent'}
+                    >
+                        {item.icon && <Icon {...IconStyle} as={item.icon} />}
+                        {children}
+                    </Flex>
+                </RouteLink>
             </Link>
         </Tooltip>
     );
 }
 
-const SidebarItemStyle = {
+const SidebarItemStyle: FlexProps = {
     width: '100%',
     justifyContent: 'left',
     alignItems: 'center',
@@ -50,7 +60,7 @@ const SidebarItemStyle = {
     fontSize: 'md',
 };
 
-const IconStyle = {
+const IconStyle: IconProps = {
     boxSize: 8,
     _hover: { color: 'white' },
 };

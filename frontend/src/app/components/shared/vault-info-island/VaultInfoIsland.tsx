@@ -1,8 +1,8 @@
 import { Flex, Spacer, Box, Link, useDisclosure, FlexProps, BoxProps, LinkProps } from '@chakra-ui/react';
 import { type ReactNode } from 'react';
-import { getVaultApiVersion, getVaultDns, getVaultName } from '../../services/SharedServices';
-import EditApiVersionModal from './EditApiVersionModal';
-import { Tooltip } from './ui-components/tooltip';
+import { getVaultApiVersion, getVaultDns, getVaultName } from '../../../services/SharedServices';
+import ApiSettingsModal from './ApiSettingsModal';
+import { Tooltip } from '../ui-components/tooltip';
 
 export default function VaultInfoIsland({ children }: { children?: ReactNode }) {
     const { open, onOpen, onClose } = useDisclosure();
@@ -22,13 +22,13 @@ export default function VaultInfoIsland({ children }: { children?: ReactNode }) 
             {children}
             <Box whiteSpace='nowrap'>
                 API Version:
-                <Tooltip content='Edit Vault API Version' openDelay={0} positioning={{ placement: 'top-start' }}>
+                <Tooltip content='Edit Vault API Settings' openDelay={0} positioning={{ placement: 'top-start' }}>
                     <Link {...ApiVersionTextStyle} onClick={onOpen}>
                         {getVaultApiVersion()}
                     </Link>
                 </Tooltip>
             </Box>
-            {open ? <EditApiVersionModal open={open} onClose={onClose} /> : null}
+            {open ? <ApiSettingsModal open={open} onClose={onClose} /> : null}
         </Flex>
     );
 }

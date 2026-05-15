@@ -1,7 +1,7 @@
 import { IconType } from 'react-icons';
 import { PiInfo, PiCodesandboxLogo, PiMagnifyingGlass, PiDatabase, PiFolder, PiCompass } from 'react-icons/pi';
 
-interface SidebarItem {
+export interface SidebarItem {
     name: string;
     icon: IconType;
     route: string;

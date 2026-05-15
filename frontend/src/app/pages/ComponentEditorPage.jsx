@@ -8,7 +8,7 @@ import ComponentEditorIsland from '../components/component-editor/ComponentEdito
 import OutstandingAsyncJobWarning from '../components/component-editor/OutstandingAsyncJobWarning';
 import ContextualHelpButton from '../components/shared/ContextualHelpButton';
 import TelemetryData from '../components/shared/TelemetryData';
-import VaultInfoIsland from '../components/shared/VaultInfoIsland';
+import VaultInfoIsland from '../components/shared/vault-info-island/VaultInfoIsland';
 import useComponentEditor from '../hooks/component-editor/useComponentEditor';
 import useComponentTree from '../hooks/component-editor/useComponentTree';
 
@@ -97,7 +97,10 @@ export default function ComponentEditorPage() {
                             <PiTreeStructureBold size={20} style={{ margin: '4px' }} />
                         </IconButton>
                         <Spacer />
-                        <ContextualHelpButton tooltip='MDL Documentation' url='https://developer.veevavault.com/mdl/' />
+                        <ContextualHelpButton
+                            tooltip='Component Editor Help'
+                            url='https://general.veevavault.dev/vault-toolbox/browser-extension/guides/component-editor/'
+                        />
                     </Flex>
                 </Box>
             </Flex>

@@ -2,7 +2,7 @@ import { VStack, Flex, Box, Spacer, Heading, StackProps, HeadingProps } from '@c
 import { PanelGroup, Panel } from 'react-resizable-panels';
 import SettingsIsland from '../components/settings/SettingsIsland';
 import ContextualHelpButton from '../components/shared/ContextualHelpButton';
-import VaultInfoIsland from '../components/shared/VaultInfoIsland';
+import VaultInfoIsland from '../components/shared/vault-info-island/VaultInfoIsland';
 
 export default function SettingsPage() {
     return (
@@ -17,7 +17,10 @@ export default function SettingsPage() {
             <Box height='100vh' flex='0 0'>
                 <Flex flexDirection='column' height='100%'>
                     <Spacer />
-                    <ContextualHelpButton tooltip='Vault Toolbox' url='https://github.com/veeva/Vault-Toolbox' />
+                    <ContextualHelpButton
+                        tooltip='Vault Toolbox'
+                        url='https://general.veevavault.dev/vault-toolbox/browser-extension/overview/'
+                    />
                 </Flex>
             </Box>
         </Flex>

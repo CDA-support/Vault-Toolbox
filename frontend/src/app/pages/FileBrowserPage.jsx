@@ -4,7 +4,7 @@ import FileBrowserDirectoryPanel from '../components/file-browser/FileBrowserDir
 import FileBrowserHeaderRow from '../components/file-browser/FileBrowserHeaderRow';
 import FileBrowserIsland from '../components/file-browser/FileBrowserIsland';
 import ContextualHelpButton from '../components/shared/ContextualHelpButton';
-import VaultInfoIsland from '../components/shared/VaultInfoIsland';
+import VaultInfoIsland from '../components/shared/vault-info-island/VaultInfoIsland';
 import { useSettings } from '../context/SettingsContext';
 import useDirectDataBrowser from '../hooks/file-browser/direct-data/useDirectDataBrowser';
 import useDirectDataTree from '../hooks/file-browser/direct-data/useDirectDataTree';
@@ -156,8 +156,8 @@ export default function FileBrowserPage() {
                 <Flex flexDirection='column' height='100%'>
                     <Spacer />
                     <ContextualHelpButton
-                        tooltip='Vault File Staging'
-                        url='https://platform.veevavault.help/en/gr/38653/'
+                        tooltip='File Browser Help'
+                        url='https://general.veevavault.dev/vault-toolbox/browser-extension/guides/file-browser/'
                     />
                 </Flex>
             </Box>
