@@ -8,7 +8,9 @@
         "skipLibCheck": true,
         "jsx": "react-jsx",
         "target": "es6",
-        "allowJs": true
+        "allowJs": true,
+        "types": ["vitest/globals", "chrome"],
+        "lib": ["ES2020", "DOM", "DOM.Iterable"]
     },
     "include": ["./src/"]
 }

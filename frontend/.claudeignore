@@ -1,0 +1,9 @@
+# Heavy JSON graph - Too large for context
+.agents/ai_agent_instructions/codebase_graph.json
+
+# Dependencies
+node_modules/
+dist/
+
+# OS files
+.DS_Store

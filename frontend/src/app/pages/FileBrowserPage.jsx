@@ -3,6 +3,7 @@ import { Panel, PanelGroup } from 'react-resizable-panels';
 import FileBrowserDirectoryPanel from '../components/file-browser/FileBrowserDirectoryPanel';
 import FileBrowserHeaderRow from '../components/file-browser/FileBrowserHeaderRow';
 import FileBrowserIsland from '../components/file-browser/FileBrowserIsland';
+import ApiHistory from '../components/shared/ApiHistory';
 import ContextualHelpButton from '../components/shared/ContextualHelpButton';
 import VaultInfoIsland from '../components/shared/vault-info-island/VaultInfoIsland';
 import { useSettings } from '../context/SettingsContext';
@@ -155,6 +156,7 @@ export default function FileBrowserPage() {
             <Box height='100vh' flex='0 0'>
                 <Flex flexDirection='column' height='100%'>
                     <Spacer />
+                    <ApiHistory />
                     <ContextualHelpButton
                         tooltip='File Browser Help'
                         url='https://general.veevavault.dev/vault-toolbox/browser-extension/guides/file-browser/'

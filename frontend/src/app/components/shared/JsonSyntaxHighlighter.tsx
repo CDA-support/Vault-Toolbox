@@ -1,8 +1,15 @@
 import { memo } from 'react';
+import type { CSSProperties } from 'react';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { useColorMode } from './ui-components/color-mode';
 
-export default memo(({ dataToDisplay }) => {
+interface JsonSyntaxHighlighterProps {
+    dataToDisplay: string | object;
+}
+
+type HighlighterStyle = Record<string, CSSProperties>;
+
+export default memo(({ dataToDisplay }: JsonSyntaxHighlighterProps) => {
     const displayData = typeof dataToDisplay === 'string' ? dataToDisplay : JSON.stringify(dataToDisplay, null, 4);
     const { colorMode } = useColorMode();
 
@@ -11,13 +18,20 @@ export default memo(({ dataToDisplay }) => {
             language='json'
             style={colorMode === 'light' ? veevaJsonStyleLightMode : veevaJsonStyleDarkMode}
             wrapLongLines
+            customStyle={WrappedTextStyle}
         >
             {displayData}
         </SyntaxHighlighter>
     );
 });
 
-const veevaJsonStyleLightMode = {
+const WrappedTextStyle: CSSProperties = {
+    margin: 0,
+    wordBreak: 'break-word',
+    overflowWrap: 'anywhere',
+};
+
+const veevaJsonStyleLightMode: HighlighterStyle = {
     hljs: {
         display: 'block',
         overflowX: 'auto',
@@ -66,7 +80,7 @@ const veevaJsonStyleLightMode = {
     'hljs-strong': { fontWeight: 'bold' },
 };
 
-const veevaJsonStyleDarkMode = {
+const veevaJsonStyleDarkMode: HighlighterStyle = {
     hljs: {
         display: 'block',
         overflowX: 'auto',

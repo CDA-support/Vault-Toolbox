@@ -4,6 +4,7 @@ import VaultInfoIsland from '../components/shared/vault-info-island/VaultInfoIsl
 import DataNavigatorHeaderRow from '../components/data-navigator/DataNavigatorHeaderRow';
 import DataNavigatorIsland from '../components/data-navigator/DataNavigatorIsland';
 import useDataNavigator from '../hooks/data-navigator/useDataNavigator';
+import ApiHistory from '../components/shared/ApiHistory';
 
 export default function DataNavigatorPage() {
     const {
@@ -40,6 +41,7 @@ export default function DataNavigatorPage() {
             <Box height='100vh' flex='0 0 auto'>
                 <Flex flexDirection='column' height='100%'>
                     <Spacer />
+                    <ApiHistory />
                     <ContextualHelpButton
                         tooltip='Data Navigator Help'
                         url='https://general.veevavault.dev/vault-toolbox/browser-extension/guides/data-navigator/'

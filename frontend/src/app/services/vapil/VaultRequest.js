@@ -1,8 +1,9 @@
+import { logApiCall } from '../../utils/api-history/ApiHistoryHelper';
 import { VAULT_CLIENT_ID, getVaultDNS } from '../ApiService.js';
 import { getVaultApiVersion, getCustomApiHeadersFromStorage } from '../SharedServices';
 
 export const VAULT_API_VERSION = 'v26.1';
-export const VAULT_DEVELOPER_TOOLBOX_VERSION = 'v26.1.0';
+export const VAULT_DEVELOPER_TOOLBOX_VERSION = 'v26.1.1';
 
 export const HTTP_HEADER_CONTENT_TYPE = 'Content-Type';
 export const HTTP_HEADER_ACCEPT = 'Accept';
@@ -19,20 +20,72 @@ export const HTTP_CONTENT_TYPE_PLAINTEXT = 'text/plain';
 export const HTTP_CONTENT_TYPE_OCTET_STREAM = 'application/octet-stream';
 
 /**
- * Request wrapper that sets default headers and omits cookies.
+ * Request wrapper that sets default headers, omits cookies, and records the call to API history.
  * @param {String} url
  * @param {Object} options
  * @returns fetch response
  */
 export async function request(url, options = {}) {
-    return fetch(url, {
+    const mergedRequestHeaders = {
+        ...options.headers,
+        ...getDefaultHeaders(),
+    };
+
+    return fetchAndLogToHistory(url, {
         ...options,
-        headers: {
-            ...options.headers,
-            ...getDefaultHeaders(),
-        },
+        headers: mergedRequestHeaders,
         credentials: 'omit', // Prevents sending Vault's cookies
     });
+}
+
+/**
+ * Performs `fetch` and logs the call results to the in-session API history. Both successful responses
+ * and thrown network errors are logged; the response body is read from a clone so the caller still
+ * owns the original stream.
+ * @param {String} url
+ * @param {RequestInit} fetchOptions
+ * @returns fetch response
+ */
+async function fetchAndLogToHistory(url, fetchOptions) {
+    const requestStartTime = performance.now();
+    const requestMethod = (fetchOptions.method ?? RequestMethod.GET).toString().toUpperCase();
+    const requestHeaders = fetchOptions.headers ?? {};
+    const requestBody = fetchOptions.body;
+
+    try {
+        const fetchResponse = await fetch(url, fetchOptions);
+
+        // Log asynchronously off a clone so the caller is not blocked while we read the body.
+        fetchResponse
+            .clone()
+            .text()
+            .then((responseBodyText) => {
+                logApiCall({
+                    method: requestMethod,
+                    url,
+                    durationMs: performance.now() - requestStartTime,
+                    requestHeaders,
+                    requestBody,
+                    responseStatus: fetchResponse.status,
+                    responseHeaders: fetchResponse.headers,
+                    responseBody: responseBodyText,
+                });
+            });
+
+        return fetchResponse;
+    } catch (networkError) {
+        logApiCall({
+            method: requestMethod,
+            url,
+            durationMs: performance.now() - requestStartTime,
+            requestHeaders,
+            requestBody,
+            responseStatus: null,
+            responseHeaders: null,
+            responseBody: String(networkError),
+        });
+        throw networkError;
+    }
 }
 
 /**

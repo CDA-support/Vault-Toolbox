@@ -2,6 +2,7 @@ import { VStack, Flex, Box, Spacer } from '@chakra-ui/react';
 import { PanelGroup, Panel } from 'react-resizable-panels';
 import DataToolsHeaderRow from '../components/data-tools/DataToolsHeaderRow';
 import DataToolsIsland from '../components/data-tools/DataToolsIand';
+import ApiHistory from '../components/shared/ApiHistory';
 import ContextualHelpButton from '../components/shared/ContextualHelpButton';
 import VaultInfoIsland from '../components/shared/vault-info-island/VaultInfoIsland';
 import useVaultDataTools from '../hooks/data-tools/useDataTools';
@@ -46,6 +47,7 @@ export default function DataToolsPage() {
             <Box height='100vh' flex='0 0'>
                 <Flex flexDirection='column' height='100%'>
                     <Spacer />
+                    <ApiHistory />
                     <ContextualHelpButton
                         tooltip='Data Tools Help'
                         url='https://general.veevavault.dev/vault-toolbox/browser-extension/guides/data-tools/'

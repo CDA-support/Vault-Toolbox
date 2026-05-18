@@ -3,6 +3,7 @@ import { PanelGroup, Panel } from 'react-resizable-panels';
 import SettingsIsland from '../components/settings/SettingsIsland';
 import ContextualHelpButton from '../components/shared/ContextualHelpButton';
 import VaultInfoIsland from '../components/shared/vault-info-island/VaultInfoIsland';
+import ApiHistory from '../components/shared/ApiHistory';
 
 export default function SettingsPage() {
     return (
@@ -17,6 +18,7 @@ export default function SettingsPage() {
             <Box height='100vh' flex='0 0'>
                 <Flex flexDirection='column' height='100%'>
                     <Spacer />
+                    <ApiHistory />
                     <ContextualHelpButton
                         tooltip='Vault Toolbox'
                         url='https://general.veevavault.dev/vault-toolbox/browser-extension/overview/'

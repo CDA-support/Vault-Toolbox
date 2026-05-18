@@ -6,6 +6,7 @@ import ComponentDirectoryPanel from '../components/component-editor/ComponentDir
 import ComponentEditorHeaderRow from '../components/component-editor/ComponentEditorHeaderRow';
 import ComponentEditorIsland from '../components/component-editor/ComponentEditorIsland';
 import OutstandingAsyncJobWarning from '../components/component-editor/OutstandingAsyncJobWarning';
+import ApiHistory from '../components/shared/ApiHistory';
 import ContextualHelpButton from '../components/shared/ContextualHelpButton';
 import TelemetryData from '../components/shared/TelemetryData';
 import VaultInfoIsland from '../components/shared/vault-info-island/VaultInfoIsland';
@@ -97,6 +98,7 @@ export default function ComponentEditorPage() {
                             <PiTreeStructureBold size={20} style={{ margin: '4px' }} />
                         </IconButton>
                         <Spacer />
+                        <ApiHistory />
                         <ContextualHelpButton
                             tooltip='Component Editor Help'
                             url='https://general.veevavault.dev/vault-toolbox/browser-extension/guides/component-editor/'
