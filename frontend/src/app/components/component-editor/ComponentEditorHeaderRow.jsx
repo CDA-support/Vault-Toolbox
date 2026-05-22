@@ -14,10 +14,11 @@ export default function ComponentEditorHeaderRow({
     isExecutingMdl,
 }) {
     const [userInputComponent, setUserInputComponent] = useState('');
+    const isProduction = isProductionVault();
 
     return (
         <Flex width='100%' margin='10px' alignItems='center'>
-            <Heading {...HeadingStyle}>Component Editor</Heading>
+            <Heading {...HeadingStyle}>Veeva Vanced Component Editor, so you can explode production safely</Heading>
             <InputGroup {...InputGroupStyle} startElement={<PiMagnifyingGlass size={24} />}>
                 <Input
                     boxShadow='0 0 5px rgba(0,0,0,0.25)'
@@ -43,22 +44,17 @@ export default function ComponentEditorHeaderRow({
             </Button>
             <Tooltip.Root openDelay={0} positioning={{ placement: 'bottom-end' }}>
                 <Tooltip.Trigger asChild>
-                    <ButtonGroup attached disabled={isProductionVault()} {...ButtonGroupStyle}>
-                        <Button
-                            onClick={executeMdl}
-                            isLoading={isExecutingMdl}
-                            disabled={isProductionVault()}
-                            {...ExecuteMdlButtonStyle}
-                        >
+                    <ButtonGroup attached {...ButtonGroupStyle}>
+                        <Button onClick={executeMdl} isLoading={isExecutingMdl} {...ExecuteMdlButtonStyle}>
                             Send
                         </Button>
                         <MenuRoot>
-                            <MenuTrigger asChild disabled={isProductionVault()}>
+                            <MenuTrigger asChild>
                                 <IconButton {...ExecuteMdlMenuButtonStyle}>
                                     <PiCaretDownBold />
                                 </IconButton>
                             </MenuTrigger>
-                            <MenuContent disabled={isProductionVault()}>
+                            <MenuContent>
                                 <MenuItem {...AsyncMdlButtonStyle} onClick={executeMdlAsync}>
                                     Send MDL Script Asynchronously
                                 </MenuItem>
@@ -76,7 +72,9 @@ export default function ComponentEditorHeaderRow({
                 {isProductionVault() && (
                     <Portal>
                         <Tooltip.Positioner>
-                            <Tooltip.Content>Read-only in Production</Tooltip.Content>
+                            <Tooltip.Content>
+                                You can explode production from this tool. You have been warned!
+                            </Tooltip.Content>
                         </Tooltip.Positioner>
                     </Portal>
                 )}
