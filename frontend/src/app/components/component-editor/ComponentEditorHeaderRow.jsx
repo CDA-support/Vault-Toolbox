@@ -14,7 +14,6 @@ export default function ComponentEditorHeaderRow({
     isExecutingMdl,
 }) {
     const [userInputComponent, setUserInputComponent] = useState('');
-    const isProduction = isProductionVault();
 
     return (
         <Flex width='100%' margin='10px' alignItems='center'>
