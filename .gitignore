@@ -8,6 +8,9 @@ vault.properties
 frontend/node_modules/*
 frontend/dist
 backend/.gitkeep
+frontend/*.pem
+frontend/*.crx
+frontend/*.lnk
 
 # Mac Files
 .DS_Store
