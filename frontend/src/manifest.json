@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
-    "name": "Vault Toolbox",
+    "name": "Vanced Vault Toolbox",
     "version": "26.1.1",
-    "description": "Vault Toolbox",
+    "description": "Explode Production Safely",
     "icons": {
         "16": "veeva-logo.png",
         "48": "veeva-logo.png",
